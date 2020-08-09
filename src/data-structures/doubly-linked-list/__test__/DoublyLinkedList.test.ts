@@ -2,12 +2,12 @@ import { DoublyLinkedList } from '../DoublyLinkedList';
 
 describe('DoublyLinkedList', () => {
   it('should create empty linked list', () => {
-    const linkedList = new DoublyLinkedList();
+    const linkedList = new DoublyLinkedList<number>();
     expect(linkedList.toString()).toBe('');
   });
 
   it('should append node to linked list', () => {
-    const linkedList = new DoublyLinkedList();
+    const linkedList = new DoublyLinkedList<number>();
 
     expect(linkedList.head).toBeNull();
     expect(linkedList.tail).toBeNull();
@@ -21,7 +21,7 @@ describe('DoublyLinkedList', () => {
   });
 
   it('should prepend node to linked list', () => {
-    const linkedList = new DoublyLinkedList();
+    const linkedList = new DoublyLinkedList<number>();
 
     linkedList.prepend(2);
     expect(linkedList.head.toString()).toBe('2');
@@ -37,14 +37,14 @@ describe('DoublyLinkedList', () => {
   });
 
   it('should create linked list from array', () => {
-    const linkedList = new DoublyLinkedList();
+    const linkedList = new DoublyLinkedList<number>();
     linkedList.fromArray([1, 1, 2, 3, 3, 3, 4, 5]);
 
     expect(linkedList.toString()).toBe('1,1,2,3,3,3,4,5');
   });
 
   it('should delete node by value from linked list', () => {
-    const linkedList = new DoublyLinkedList();
+    const linkedList = new DoublyLinkedList<number>();
 
     expect(linkedList.delete(5)).toBeNull();
 
@@ -94,7 +94,7 @@ describe('DoublyLinkedList', () => {
   });
 
   it('should delete linked list tail', () => {
-    const linkedList = new DoublyLinkedList();
+    const linkedList = new DoublyLinkedList<number>();
 
     expect(linkedList.deleteTail()).toBeNull();
 
@@ -128,7 +128,7 @@ describe('DoublyLinkedList', () => {
   });
 
   it('should delete linked list head', () => {
-    const linkedList = new DoublyLinkedList();
+    const linkedList = new DoublyLinkedList<number>();
 
     expect(linkedList.deleteHead()).toBeNull();
 
@@ -155,20 +155,21 @@ describe('DoublyLinkedList', () => {
   });
 
   it('should be possible to store objects in the list and to print them out', () => {
-    const linkedList = new DoublyLinkedList();
+    const linkedList = new DoublyLinkedList<{ value: number; key: string }>();
 
     const nodeValue1 = { value: 1, key: 'key1' };
     const nodeValue2 = { value: 2, key: 'key2' };
 
     linkedList.append(nodeValue1).prepend(nodeValue2);
 
-    const nodeStringifier = (value: any) => `${value.key}:${value.value}`;
+    const nodeStringifier = (doublyLinkedListNode: { value: number; key: string }) =>
+      `${doublyLinkedListNode.key}:${doublyLinkedListNode.value}`;
 
     expect(linkedList.toString(nodeStringifier)).toBe('key2:2,key1:1');
   });
 
   it('should find node by value', () => {
-    const linkedList = new DoublyLinkedList();
+    const linkedList = new DoublyLinkedList<number>();
 
     expect(linkedList.find({ value: 5 })).toBeNull();
 
@@ -184,23 +185,34 @@ describe('DoublyLinkedList', () => {
   });
 
   it('should find node by callback', () => {
-    const linkedList = new DoublyLinkedList();
+    const linkedList = new DoublyLinkedList<{ value: number; key: string }>();
 
     linkedList
       .append({ value: 1, key: 'test1' })
       .append({ value: 2, key: 'test2' })
       .append({ value: 3, key: 'test3' });
 
-    const node = linkedList.find({ callback: (value) => value.key === 'test2' });
+    const node = linkedList.find({
+      callback: (doublyLinkedListNode: { value: number; key: string }) =>
+        doublyLinkedListNode.key === 'test2',
+    });
 
     expect(node).toBeDefined();
     expect(node.value.value).toBe(2);
     expect(node.value.key).toBe('test2');
-    expect(linkedList.find({ callback: (value) => value.key === 'test5' })).toBeNull();
+    expect(
+      linkedList.find({
+        callback: (doublyLinkedListNode: { value: number; key: string }) =>
+          doublyLinkedListNode.key === 'test5',
+      }),
+    ).toBeNull();
   });
 
   it('should find node by means of custom compare function', () => {
-    const comparatorFunction = (a: any, b: any) => {
+    const comparatorFunction = (
+      a: { value: number; customValue: string },
+      b: { value: number; customValue: string },
+    ) => {
       if (a.customValue === b.customValue) {
         return 0;
       }
@@ -208,7 +220,9 @@ describe('DoublyLinkedList', () => {
       return a.customValue < b.customValue ? -1 : 1;
     };
 
-    const linkedList = new DoublyLinkedList(comparatorFunction);
+    const linkedList = new DoublyLinkedList<{ value: number; customValue: string }>(
+      comparatorFunction,
+    );
 
     linkedList
       .append({ value: 1, customValue: 'test1' })
@@ -226,7 +240,7 @@ describe('DoublyLinkedList', () => {
   });
 
   it('should reverse linked list', () => {
-    const linkedList = new DoublyLinkedList();
+    const linkedList = new DoublyLinkedList<number>();
 
     // Add test values to linked list.
     linkedList.append(1).append(2).append(3).append(4);

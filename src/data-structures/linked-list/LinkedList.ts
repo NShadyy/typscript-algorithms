@@ -1,20 +1,20 @@
 import { Comparator } from '../../utils/Comparator';
 import { LinkedListNode } from './LinkedListNode';
 
-export class LinkedList {
-  public head: LinkedListNode;
-  public tail: LinkedListNode;
-  public comparator: Comparator;
+export class LinkedList<T> {
+  public head: LinkedListNode<T>;
+  public tail: LinkedListNode<T>;
+  public comparator: Comparator<T>;
 
-  constructor(comparatorFunction?: (a: any, b: any) => number) {
+  constructor(comparatorFunction?: (a: T, b: T) => number) {
     this.head = null;
     this.tail = null;
 
-    this.comparator = new Comparator(comparatorFunction);
+    this.comparator = new Comparator<T>(comparatorFunction);
   }
 
-  prepend(value: any): LinkedList {
-    const newNode = new LinkedListNode(value, this.head);
+  prepend(value: T): LinkedList<T> {
+    const newNode = new LinkedListNode<T>(value, this.head);
     this.head = newNode;
 
     if (!this.tail) {
@@ -24,8 +24,8 @@ export class LinkedList {
     return this;
   }
 
-  append(value: any): LinkedList {
-    const newNode = new LinkedListNode(value);
+  append(value: T): LinkedList<T> {
+    const newNode = new LinkedListNode<T>(value);
 
     if (!this.head) {
       this.head = newNode;
@@ -40,19 +40,19 @@ export class LinkedList {
     return this;
   }
 
-  delete(value: any): LinkedListNode {
+  delete(value: T): LinkedListNode<T> {
     if (!this.head) {
       return null;
     }
 
-    let deleteNode: LinkedListNode = this.head;
+    let deleteNode: LinkedListNode<T> = this.head;
 
     while (this.head && this.comparator.equal(this.head.value, value)) {
       deleteNode = this.head;
       this.head = this.head.next;
     }
 
-    let currentNode: LinkedListNode = this.head;
+    let currentNode: LinkedListNode<T> = this.head;
 
     if (currentNode !== null) {
       while (currentNode.next) {
@@ -72,12 +72,12 @@ export class LinkedList {
     return deleteNode;
   }
 
-  find({ value, callback }: { value?: any; callback?: (value: any) => boolean }): LinkedListNode {
+  find({ value, callback }: { value?: T; callback?: (value: T) => boolean }): LinkedListNode<T> {
     if (!this.head) {
       return null;
     }
 
-    let currentNode: LinkedListNode = this.head;
+    let currentNode: LinkedListNode<T> = this.head;
 
     while (currentNode) {
       if (callback && callback(currentNode.value)) {
@@ -94,8 +94,8 @@ export class LinkedList {
     return null;
   }
 
-  deleteTail(): LinkedListNode {
-    const deletedTail: LinkedListNode = this.tail;
+  deleteTail(): LinkedListNode<T> {
+    const deletedTail: LinkedListNode<T> = this.tail;
 
     if (this.head === this.tail) {
       this.head = null;
@@ -104,7 +104,7 @@ export class LinkedList {
       return deletedTail;
     }
 
-    let currentNode: LinkedListNode = this.head;
+    let currentNode: LinkedListNode<T> = this.head;
 
     while (currentNode.next) {
       if (!currentNode.next.next) {
@@ -119,12 +119,12 @@ export class LinkedList {
     return deletedTail;
   }
 
-  deleteHead(): LinkedListNode {
+  deleteHead(): LinkedListNode<T> {
     if (!this.head) {
       return null;
     }
 
-    const deletedHead: LinkedListNode = this.head;
+    const deletedHead: LinkedListNode<T> = this.head;
 
     if (this.head.next) {
       this.head = this.head.next;
@@ -136,18 +136,18 @@ export class LinkedList {
     return deletedHead;
   }
 
-  fromArray(values: any[]): LinkedList {
-    values.forEach((value: any) => {
+  fromArray(values: T[]): LinkedList<T> {
+    values.forEach((value: T) => {
       this.append(value);
     });
 
     return this;
   }
 
-  toArray(): LinkedListNode[] {
+  toArray(): LinkedListNode<T>[] {
     const nodes = [];
 
-    let currentNode: LinkedListNode = this.head;
+    let currentNode: LinkedListNode<T> = this.head;
     while (currentNode) {
       nodes.push(currentNode);
       currentNode = currentNode.next;
@@ -156,16 +156,16 @@ export class LinkedList {
     return nodes;
   }
 
-  toString(callback?: (value: any) => string): string {
+  toString(callback?: (value: T) => string): string {
     return this.toArray()
-      .map((node: LinkedListNode) => node.toString(callback))
+      .map((node: LinkedListNode<T>) => node.toString(callback))
       .toString();
   }
 
-  reverse(): LinkedList {
-    let currentNode: LinkedListNode = this.head;
-    let prevNode: LinkedListNode = null;
-    let nextNode: LinkedListNode = null;
+  reverse(): LinkedList<T> {
+    let currentNode: LinkedListNode<T> = this.head;
+    let prevNode: LinkedListNode<T> = null;
+    let nextNode: LinkedListNode<T> = null;
 
     while (currentNode) {
       nextNode = currentNode.next;

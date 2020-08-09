@@ -1,20 +1,20 @@
 import { Comparator } from '../../utils/Comparator';
 import { DoublyLinkedListNode } from './DoublyLinkedListNode';
 
-export class DoublyLinkedList {
-  public head: DoublyLinkedListNode;
-  public tail: DoublyLinkedListNode;
-  public comparator: Comparator;
+export class DoublyLinkedList<T> {
+  public head: DoublyLinkedListNode<T>;
+  public tail: DoublyLinkedListNode<T>;
+  public comparator: Comparator<T>;
 
-  constructor(comparatorFunction?: (a: any, b: any) => number) {
+  constructor(comparatorFunction?: (a: T, b: T) => number) {
     this.head = null;
     this.tail = null;
 
-    this.comparator = new Comparator(comparatorFunction);
+    this.comparator = new Comparator<T>(comparatorFunction);
   }
 
-  prepend(value: any): DoublyLinkedList {
-    const newNode = new DoublyLinkedListNode(value, this.head);
+  prepend(value: T): DoublyLinkedList<T> {
+    const newNode = new DoublyLinkedListNode<T>(value, this.head);
 
     if (this.head) {
       this.head.previous = newNode;
@@ -28,8 +28,8 @@ export class DoublyLinkedList {
     return this;
   }
 
-  append(value: any): DoublyLinkedList {
-    const newNode = new DoublyLinkedListNode(value, null, this.tail);
+  append(value: T): DoublyLinkedList<T> {
+    const newNode = new DoublyLinkedListNode<T>(value, null, this.tail);
 
     if (this.tail) {
       this.tail.next = newNode;
@@ -43,13 +43,13 @@ export class DoublyLinkedList {
     return this;
   }
 
-  delete(value: any): DoublyLinkedListNode {
+  delete(value: T): DoublyLinkedListNode<T> {
     if (!this.head) {
       return null;
     }
 
-    let deletedNode: DoublyLinkedListNode = null;
-    let currentNode: DoublyLinkedListNode = this.head;
+    let deletedNode: DoublyLinkedListNode<T> = null;
+    let currentNode: DoublyLinkedListNode<T> = this.head;
 
     while (currentNode) {
       if (this.comparator.equal(currentNode.value, value)) {
@@ -83,14 +83,14 @@ export class DoublyLinkedList {
     value,
     callback,
   }: {
-    value?: any;
-    callback?: (value: any) => boolean;
-  }): DoublyLinkedListNode {
+    value?: T;
+    callback?: (value: T) => boolean;
+  }): DoublyLinkedListNode<T> {
     if (!this.head) {
       return null;
     }
 
-    let currentNode: DoublyLinkedListNode = this.head;
+    let currentNode: DoublyLinkedListNode<T> = this.head;
 
     while (currentNode) {
       if (callback && callback(currentNode.value)) {
@@ -107,12 +107,12 @@ export class DoublyLinkedList {
     return null;
   }
 
-  deleteTail(): DoublyLinkedListNode {
+  deleteTail(): DoublyLinkedListNode<T> {
     if (!this.tail) {
       return null;
     }
 
-    const deletedNode: DoublyLinkedListNode = this.tail;
+    const deletedNode: DoublyLinkedListNode<T> = this.tail;
 
     if (this.head === this.tail) {
       this.head = null;
@@ -127,12 +127,12 @@ export class DoublyLinkedList {
     return deletedNode;
   }
 
-  deleteHead(): DoublyLinkedListNode {
+  deleteHead(): DoublyLinkedListNode<T> {
     if (!this.head) {
       return null;
     }
 
-    const deletedNode: DoublyLinkedListNode = this.head;
+    const deletedNode: DoublyLinkedListNode<T> = this.head;
 
     if (this.head === this.tail) {
       this.head = null;
@@ -147,10 +147,10 @@ export class DoublyLinkedList {
     return deletedNode;
   }
 
-  toArray(): DoublyLinkedListNode[] {
+  toArray(): DoublyLinkedListNode<T>[] {
     const nodes = [];
 
-    let currentNode: DoublyLinkedListNode = this.head;
+    let currentNode: DoublyLinkedListNode<T> = this.head;
     while (currentNode) {
       nodes.push(currentNode);
       currentNode = currentNode.next;
@@ -159,19 +159,19 @@ export class DoublyLinkedList {
     return nodes;
   }
 
-  fromArray(values: any[]): DoublyLinkedList {
-    values.forEach((value: any) => this.append(value));
+  fromArray(values: T[]): DoublyLinkedList<T> {
+    values.forEach((value: T) => this.append(value));
 
     return this;
   }
 
-  toString(callback?: (value: any) => string): string {
+  toString(callback?: (value: T) => string): string {
     return this.toArray()
-      .map((node: DoublyLinkedListNode) => node.toString(callback))
+      .map((node: DoublyLinkedListNode<T>) => node.toString(callback))
       .toString();
   }
 
-  reverse(): DoublyLinkedList {
+  reverse(): DoublyLinkedList<T> {
     let currentNode = this.head;
     let nextNode = null;
     let previousNode = null;

@@ -1,5 +1,5 @@
-export class Comparator {
-  constructor(compareFunction?: (a: any, b: any) => number) {
+export class Comparator<T> {
+  constructor(compareFunction?: (a: T, b: T) => number) {
     this.compare = compareFunction || Comparator.defaultCompareFunction;
   }
 
@@ -11,25 +11,25 @@ export class Comparator {
     return a < b ? -1 : 1;
   }
 
-  compare: (a: any, b: any) => number;
+  compare: (a: T, b: T) => number;
 
-  equal(a: any, b: any) {
+  equal(a: T, b: T) {
     return this.compare(a, b) === 0;
   }
 
-  lessThan(a: any, b: any) {
+  lessThan(a: T, b: T) {
     return this.compare(a, b) < 0;
   }
 
-  greaterThan(a: any, b: any) {
+  greaterThan(a: T, b: T) {
     return this.compare(a, b) > 0;
   }
 
-  lessThanOrEqual(a: any, b: any) {
+  lessThanOrEqual(a: T, b: T) {
     return this.lessThan(a, b) || this.equal(a, b);
   }
 
-  greaterThanOrEqual(a: any, b: any) {
+  greaterThanOrEqual(a: T, b: T) {
     return this.greaterThan(a, b) || this.equal(a, b);
   }
 

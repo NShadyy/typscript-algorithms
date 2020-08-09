@@ -2,12 +2,12 @@ import { LinkedList } from '../LinkedList';
 
 describe('LinkedList', () => {
   it('should create empty linked list', () => {
-    const linkedList = new LinkedList();
+    const linkedList = new LinkedList<number>();
     expect(linkedList.toString()).toBe('');
   });
 
   it('should append node to linked list', () => {
-    const linkedList = new LinkedList();
+    const linkedList = new LinkedList<number>();
 
     expect(linkedList.head).toBeNull();
     expect(linkedList.tail).toBeNull();
@@ -20,7 +20,7 @@ describe('LinkedList', () => {
   });
 
   it('should prepend node to linked list', () => {
-    const linkedList = new LinkedList();
+    const linkedList = new LinkedList<number>();
 
     linkedList.prepend(2);
     expect(linkedList.head.toString()).toBe('2');
@@ -33,7 +33,7 @@ describe('LinkedList', () => {
   });
 
   it('should delete node by value from linked list', () => {
-    const linkedList = new LinkedList();
+    const linkedList = new LinkedList<number>();
 
     expect(linkedList.delete(5)).toBeNull();
 
@@ -79,7 +79,7 @@ describe('LinkedList', () => {
   });
 
   it('should delete linked list tail', () => {
-    const linkedList = new LinkedList();
+    const linkedList = new LinkedList<number>();
 
     linkedList.append(1);
     linkedList.append(2);
@@ -111,7 +111,7 @@ describe('LinkedList', () => {
   });
 
   it('should delete linked list head', () => {
-    const linkedList = new LinkedList();
+    const linkedList = new LinkedList<number>();
 
     expect(linkedList.deleteHead()).toBeNull();
 
@@ -137,20 +137,20 @@ describe('LinkedList', () => {
   });
 
   it('should be possible to store objects in the list and to print them out', () => {
-    const linkedList = new LinkedList();
+    const linkedList = new LinkedList<{ value: number; key: string }>();
 
     const nodeValue1 = { value: 1, key: 'key1' };
     const nodeValue2 = { value: 2, key: 'key2' };
 
     linkedList.append(nodeValue1).prepend(nodeValue2);
 
-    const nodeStringifier = (value: any) => `${value.key}:${value.value}`;
+    const nodeStringifier = (node: { value: number; key: string }) => `${node.key}:${node.value}`;
 
     expect(linkedList.toString(nodeStringifier)).toBe('key2:2,key1:1');
   });
 
   it('should find node by value', () => {
-    const linkedList = new LinkedList();
+    const linkedList = new LinkedList<number>();
 
     expect(linkedList.find({ value: 5 })).toBeNull();
 
@@ -166,30 +166,40 @@ describe('LinkedList', () => {
   });
 
   it('should find node by callback', () => {
-    const linkedList = new LinkedList();
+    const linkedList = new LinkedList<{ value: number; key: string }>();
 
     linkedList
       .append({ value: 1, key: 'test1' })
       .append({ value: 2, key: 'test2' })
       .append({ value: 3, key: 'test3' });
 
-    const node = linkedList.find({ callback: (value) => value.key === 'test2' });
+    const node = linkedList.find({
+      callback: (linkedListNode: { value: number; key: string }) => linkedListNode.key === 'test2',
+    });
 
     expect(node).toBeDefined();
     expect(node.value.value).toBe(2);
     expect(node.value.key).toBe('test2');
-    expect(linkedList.find({ callback: (value) => value.key === 'test5' })).toBeNull();
+    expect(
+      linkedList.find({
+        callback: (linkedListNode: { value: number; key: string }) =>
+          linkedListNode.key === 'test5',
+      }),
+    ).toBeNull();
   });
 
   it('should create linked list from array', () => {
-    const linkedList = new LinkedList();
+    const linkedList = new LinkedList<number>();
     linkedList.fromArray([1, 1, 2, 3, 3, 3, 4, 5]);
 
     expect(linkedList.toString()).toBe('1,1,2,3,3,3,4,5');
   });
 
   it('should find node by means of custom compare function', () => {
-    const comparatorFunction = (a: any, b: any) => {
+    const comparatorFunction = (
+      a: { value: number; customValue: string },
+      b: { value: number; customValue: string },
+    ) => {
       if (a.customValue === b.customValue) {
         return 0;
       }
@@ -197,7 +207,7 @@ describe('LinkedList', () => {
       return a.customValue < b.customValue ? -1 : 1;
     };
 
-    const linkedList = new LinkedList(comparatorFunction);
+    const linkedList = new LinkedList<{ value: number; customValue: string }>(comparatorFunction);
 
     linkedList
       .append({ value: 1, customValue: 'test1' })
@@ -215,7 +225,7 @@ describe('LinkedList', () => {
   });
 
   it('should reverse linked list', () => {
-    const linkedList = new LinkedList();
+    const linkedList = new LinkedList<number>();
 
     // Add test values to linked list.
     linkedList.append(1).append(2).append(3);
