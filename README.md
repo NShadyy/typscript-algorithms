@@ -1,1 +1,1 @@
-# Practice Javascript Algorithms
+# TypeScript Algorithms

@@ -1,7 +1,7 @@
 {
-  "name": "practice-javascript-algorithms",
+  "name": "typescript-algorithms",
   "version": "0.0.1",
-  "description": "Algorithms and data-structures implemented on JavaScript",
+  "description": "Algorithms and data-structures implemented in TypeScript",
   "main": "index.js",
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\"",
@@ -11,28 +11,25 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NShadyy/practice-javascript-algorithms.git"
+    "url": "git+https://github.com/NShadyy/typscript-algorithms.git"
   },
   "keywords": [
     "computer-science",
     "cs",
     "algorithms",
     "data-structures",
-    "javascript",
+    "typescript",
     "algorithm",
-    "javascript-algorithms",
-    "sorting-algorithms",
-    "graph",
-    "tree",
+    "typescript-algorithms",
     "interview",
     "interview-preparation"
   ],
   "author": "Nakul Sharma (https://www.linkedin.com/in/nakul-sharma-600a20a4/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/NShadyy/practice-javascript-algorithms/issues"
+    "url": "https://github.com/NShadyy/typscript-algorithms/issues"
   },
-  "homepage": "https://github.com/NShadyy/practice-javascript-algorithms#readme",
+  "homepage": "https://github.com/NShadyy/typscript-algorithms#readme",
   "devDependencies": {
     "@types/jest": "^26.0.9",
     "@types/node": "^14.0.27",
