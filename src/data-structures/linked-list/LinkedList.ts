@@ -158,7 +158,7 @@ export class LinkedList {
 
   toString(callback?: (value: any) => string): string {
     return this.toArray()
-      .map((node: any) => node.toString(callback))
+      .map((node: LinkedListNode) => node.toString(callback))
       .toString();
   }
 
