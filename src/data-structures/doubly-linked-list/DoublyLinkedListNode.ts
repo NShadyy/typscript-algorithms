@@ -3,6 +3,11 @@ export class DoublyLinkedListNode<T> {
   public next: DoublyLinkedListNode<T>;
   public previous: DoublyLinkedListNode<T>;
 
+  /**
+   * @param {T} value
+   * @param {DoublyLinkedListNode<T>} next
+   * @param {DoublyLinkedListNode<T>} previous
+   */
   constructor(
     value: T,
     next: DoublyLinkedListNode<T> = null,
@@ -13,6 +18,10 @@ export class DoublyLinkedListNode<T> {
     this.previous = previous;
   }
 
+  /**
+   * @param {function} [callback]
+   * @return {string}
+   */
   toString(callback?: (value: T) => string): string {
     return callback ? callback(this.value) : `${this.value}`;
   }
